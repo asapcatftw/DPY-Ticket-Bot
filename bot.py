@@ -20,6 +20,7 @@ bot = commands.Bot(
     command_prefix="..", case_insensitive=True, owner_id=271612318947868673
 )
 secret_file = read_json("secrets")
+discord_token_docker = os.getenv("TOKEN")
 
 bot.new_ticket_channel_id = None
 bot.log_channel_id = None
@@ -175,4 +176,4 @@ async def echo(ctx, channel: discord.TextChannel, *, content):
 
 
 if __name__ == "__main__":
-    bot.run(secret_file["token"])
+    bot.run(discord_token_docker)
