@@ -1,0 +1,8 @@
+version: '3.7'
+
+services:
+  proxy:
+    image: cool2zap/discord-ticket-bot:latest
+    restart: unless-stopped
+    volumes:
+      - ./data:/app
