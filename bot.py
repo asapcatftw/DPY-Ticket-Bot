@@ -1,6 +1,7 @@
 import traceback
 
 import discord
+import os
 from discord.ext import commands
 
 from utils.util import (

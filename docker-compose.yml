@@ -1,8 +1,13 @@
-version: '3.7'
+version: '3.8'
 
 services:
   proxy:
     image: cool2zap/discord-ticket-bot:latest
     restart: unless-stopped
     volumes:
-      - ./data:/app
+      - data:/app
+    environment: 
+        TOKEN: ""
+
+volumes:
+    data:
