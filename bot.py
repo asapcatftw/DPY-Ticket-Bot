@@ -18,7 +18,7 @@ from utils.util import (
 from utils.json import read_json
 
 bot = commands.Bot(
-    command_prefix="-", case_insensitive=True, owner_id=271612318947868673
+    command_prefix="-", case_insensitive=True, owner_id=95299200681512960
 )
 secret_file = read_json("secrets")
 discord_token_docker = os.getenv("TOKEN")
