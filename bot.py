@@ -151,6 +151,15 @@ async def new(ctx, *, subject=None):
 async def close(ctx, *, reason=None):
     await CloseTicket(bot, ctx, reason)
 
+@bot.command()
+@commands.has_role(bot.staff_role_id)
+async def adduser(ctx, user: discord.Member):
+    channel = ctx.channel
+    if not CheckIfTicket(channel.id):
+        await ctx.send("This is not a ticket! users can only be added to ticket channels")
+    else:
+        await channel.set_permissions(user, read_messages=True, send_messages=True)
+        await ctx.message.delete()
 
 @bot.command()
 @commands.is_owner()
