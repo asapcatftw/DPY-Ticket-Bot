@@ -151,6 +151,7 @@ async def new(ctx, *, subject=None):
 async def close(ctx, *, reason=None):
     await CloseTicket(bot, ctx, reason)
 
+#add users to a ticket - only staff role can add users
 @bot.command()
 @commands.has_role(bot.staff_role_id)
 async def adduser(ctx, user: discord.Member):
@@ -161,6 +162,7 @@ async def adduser(ctx, user: discord.Member):
         await channel.set_permissions(user, read_messages=True, send_messages=True)
         await ctx.message.delete()
 
+#remove users to a ticket - only staff role can remove users
 @bot.command()
 @commands.has_role(bot.staff_role_id)
 async def removeuser(ctx, user: discord.Member):
