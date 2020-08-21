@@ -1,21 +1,18 @@
-import traceback
-
 import discord
 import os
 from discord.ext import commands
 
+from utils.jsonLoader import read_json
 from utils.util import (
     CreateNewTicket,
     SudoCreateNewTicket,
     CloseTicket,
-    GetTicketSetupMessageId,
-    CheckIfTicket,
+    IsATicket,
     ReactionCreateNewTicket,
     SetupNewTicketMessage,
     CheckIfValidReactionMessage,
     ReactionCloseTicket,
 )
-from utils.json import read_json
 
 bot = commands.Bot(
     command_prefix="-", case_insensitive=True, owner_id=95299200681512960
@@ -27,30 +24,6 @@ bot.new_ticket_channel_id = None
 bot.log_channel_id = None
 bot.category_id = None
 bot.staff_role_id = None
-
-bot.colors = {
-    "WHITE": 0xFFFFFF,
-    "AQUA": 0x1ABC9C,
-    "GREEN": 0x2ECC71,
-    "BLUE": 0x3498DB,
-    "PURPLE": 0x9B59B6,
-    "LUMINOUS_VIVID_PINK": 0xE91E63,
-    "GOLD": 0xF1C40F,
-    "ORANGE": 0xE67E22,
-    "RED": 0xE74C3C,
-    "NAVY": 0x34495E,
-    "DARK_AQUA": 0x11806A,
-    "DARK_GREEN": 0x1F8B4C,
-    "DARK_BLUE": 0x206694,
-    "DARK_PURPLE": 0x71368A,
-    "DARK_VIVID_PINK": 0xAD1457,
-    "DARK_GOLD": 0xC27C0E,
-    "DARK_ORANGE": 0xA84300,
-    "DARK_RED": 0x992D22,
-    "DARK_NAVY": 0x2C3E50,
-}
-bot.colorList = [c for c in bot.colors.values()]
-
 
 @bot.event
 async def on_ready():
@@ -70,7 +43,7 @@ async def on_raw_reaction_add(payload):
         return
 
     # Check its a valid reaction channel
-    if not payload.channel_id == bot.new_ticket_channel_id and not CheckIfTicket(
+    if not payload.channel_id == bot.new_ticket_channel_id and not IsATicket(
         str(payload.channel_id)
     ):
         return
@@ -123,7 +96,7 @@ async def on_raw_reaction_remove(payload):
         return
 
     # Check its a valid reaction channel
-    if not payload.channel_id == bot.new_ticket_channel_id and not CheckIfTicket(
+    if not payload.channel_id == bot.new_ticket_channel_id and not IsATicket(
         str(payload.channel_id)
     ):
         return
@@ -151,28 +124,35 @@ async def new(ctx, *, subject=None):
 async def close(ctx, *, reason=None):
     await CloseTicket(bot, ctx, reason)
 
-#add users to a ticket - only staff role can add users
 @bot.command()
 @commands.has_role(bot.staff_role_id)
 async def adduser(ctx, user: discord.Member):
+    """
+    add users to a ticket - only staff role can add users.
+    """
     channel = ctx.channel
-    if not CheckIfTicket(channel.id):
+    if not IsATicket(channel.id):
         await ctx.send("This is not a ticket! Users can only be added to a ticket channel")
-    else:
-        await channel.set_permissions(user, read_messages=True, send_messages=True)
-        await ctx.message.delete()
+        return
 
-#remove users to a ticket - only staff role can remove users
+    await channel.set_permissions(user, read_messages=True, send_messages=True)
+    await ctx.message.delete()
+
+
 @bot.command()
 @commands.has_role(bot.staff_role_id)
 async def removeuser(ctx, user: discord.Member):
+    """
+    removes users from a ticket - only staff role can remove users.
+    """
     channel = ctx.channel
-    if not CheckIfTicket(channel.id):
+    if not IsATicket(channel.id):
         await ctx.send("This is not a ticket! Users can only be removed from a ticket channel")
-    else:
-        await channel.set_permissions(user, read_messages=False, send_messages=False)
-        await ctx.message.delete()
-
+        return
+        
+    await channel.set_permissions(user, read_messages=False, send_messages=False)
+    await ctx.message.delete()
+        
 @bot.command()
 @commands.is_owner()
 async def sudonew(ctx, user: discord.Member):
