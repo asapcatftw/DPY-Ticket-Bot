@@ -8,10 +8,6 @@ services:
       - data:/app
     environment: 
         TOKEN: ""
-        new_ticket_channel_id: ""
-        log_channel_id: ""
-        category_id: ""
-        staff_role_id: ""
  
 
 volumes:

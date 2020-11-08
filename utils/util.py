@@ -148,6 +148,7 @@ async def ReactionCreateNewTicket(bot, payload):
         guild.me: discord.PermissionOverwrite(read_messages=True),
         staffRole: discord.PermissionOverwrite(read_messages=True),
         author: discord.PermissionOverwrite(read_messages=True),
+        author: discord.PermissionOverwrite(read_message_history=True),
     }
 
     channel = await guild.create_text_channel(
