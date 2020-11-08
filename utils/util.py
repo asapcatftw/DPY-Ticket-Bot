@@ -147,8 +147,7 @@ async def ReactionCreateNewTicket(bot, payload):
         guild.default_role: discord.PermissionOverwrite(read_messages=False),
         guild.me: discord.PermissionOverwrite(read_messages=True),
         staffRole: discord.PermissionOverwrite(read_messages=True),
-        author: discord.PermissionOverwrite(read_messages=True),
-        author: discord.PermissionOverwrite(read_message_history=True),
+        author: discord.PermissionOverwrite(read_messages=True, read_message_history=True),
     }
 
     channel = await guild.create_text_channel(
@@ -181,7 +180,7 @@ async def CreateNewTicket(bot, ctx, subject=None):
         ctx.guild.default_role: discord.PermissionOverwrite(read_messages=False),
         ctx.guild.me: discord.PermissionOverwrite(read_messages=True),
         staffRole: discord.PermissionOverwrite(read_messages=True),
-        ctx.author: discord.PermissionOverwrite(read_messages=True),
+        ctx.author: discord.PermissionOverwrite(read_messages=True, read_message_history=True),
     }
 
     channel = await ctx.guild.create_text_channel(
@@ -215,7 +214,7 @@ async def SudoCreateNewTicket(bot, guild, author, message):
         guild.default_role: discord.PermissionOverwrite(read_messages=False),
         guild.me: discord.PermissionOverwrite(read_messages=True),
         staffRole: discord.PermissionOverwrite(read_messages=True),
-        author: discord.PermissionOverwrite(read_messages=True),
+        author: discord.PermissionOverwrite(read_messages=True, read_message_history=True),
     }
 
     channel = await guild.create_text_channel(
