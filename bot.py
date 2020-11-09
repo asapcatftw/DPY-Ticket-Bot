@@ -20,10 +20,10 @@ bot = commands.Bot(
 secret_file = read_json("secrets")
 discord_token_docker = os.getenv("TOKEN")
 
-bot.new_ticket_channel_id = os.getenv("new_ticket_channel_id")
-bot.log_channel_id = os.getenv("log_channel_id")
-bot.category_id = os.getenv("category_id")
-bot.staff_role_id = os.getenv("staff_role_id")
+bot.new_ticket_channel_id = os.getenv("NEW_TICKET_CHANNEL_ID")
+bot.log_channel_id = os.getenv("LOG_CHANNEL_ID")
+bot.category_id = os.getenv("CATEGORY_ID")
+bot.staff_role_id = os.getenv("STAFF_ROLE_ID")
 
 @bot.event
 async def on_ready():
