@@ -57,11 +57,11 @@ async def on_raw_reaction_add(payload):
     data = read_json("config")
     if payload.message_id == data["ticketSetupMessageId"] and reaction == "✅":
         # We want a new ticket...
-        await ReactionCreateNewTicket(bot, payload)
-        
-        # once the ticket is created remove the user reaction
         guild = bot.get_guild(payload.guild_id)
         member = await guild.fetch_member(payload.user_id)
+        #await ReactionCreateNewTicket(bot, payload)
+        await CreateNewTicket(bot, guild, member)
+        # once the ticket is created remove the user reaction
         
         channel = bot.get_channel(payload.channel_id)
         message = await channel.fetch_message(payload.message_id)
